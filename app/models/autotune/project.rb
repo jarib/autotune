@@ -145,9 +145,12 @@ module Autotune
 
     def pub_to_redis
       return if Autotune.redis.nil?
-      msg = { :id => id,
-              :status => status }
-      Autotune.redis.publish 'project', msg.to_json
+
+      Autotune.redis.publish 'project', {
+        :id => id,
+        :status => status,
+        :changes => previous_changes
+      }.to_json
     end
   end
 end
